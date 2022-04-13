@@ -85,9 +85,9 @@ class ManagePackage
         );
     }
 
-    public static function delete(array $package, bool $isRemovable)
+    public static function delete(?array $package, bool $isRemovable)
     {
-        if ($isRemovable) (new Filesystem)->deleteDirectory(
+        if ($isRemovable && $package) (new Filesystem)->deleteDirectory(
             Path::base([Package::container(), $package['folder'], $package['name']])
         );
     }
