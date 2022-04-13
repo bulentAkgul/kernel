@@ -17,6 +17,8 @@ class CollectTypes
 
         self::setTypes($type);
 
+        ray(self::$types);
+
         array_map(fn ($x) => self::addRelatedTypes($x, $parent), self::$types);
 
         return self::$types;
@@ -120,8 +122,19 @@ class CollectTypes
     {
         return array_map(
             fn ($x) => ['type' => $x, 'status' => 'pair'],
-            Settings::files("{$type['type']}.pairs")
+            self::setPairTypes($type)
         );
+    }
+
+    private static function setPairTypes(array $type): array
+    {
+        $types = Settings::files("{$type['type']}.pairs");
+
+        if ($type['type'] == 'controller' && $type['variation'] == 'invokable') {
+            $types = array_filter($types, fn ($x) => $x != 'service' && $x != 'request');
+        }
+
+        return $types;
     }
 
     private static function require(array $type): array
