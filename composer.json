@@ -1,0 +1,27 @@
+{
+  "name": "bakgul/kernel",
+  "description": "Create Laravel files easily.",
+  "authors": [
+    {
+      "name": "Bulent Akgul",
+      "email": "bulent.akgul@me.com"
+    }
+  ],
+  "require": {},
+  "require-dev": {
+    "bakgul/file-history": "@dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "Bakgul\\Kernel\\": "src/",
+      "Bakgul\\Kernel\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Bakgul\\Kernel\\ComplementsServiceProvider"
+      ]
+    }
+  }
+}
