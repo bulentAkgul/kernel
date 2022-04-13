@@ -3,7 +3,7 @@
 namespace Bakgul\Kernel\Tests;
 
 use Bakgul\Kernel\Concerns\CreatesApplication;
-use Bakgul\Kernel\Tests\Tasks\SetupTest;
+use Bakgul\Kernel\Helpers\Settings;
 use Bakgul\Kernel\Tests\Tasks\TierDownTest;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -18,6 +18,15 @@ abstract class TestCase extends BaseTestCase
     public function setUp(): void
     {
         parent::setUp();
+
+        $this->handleFakeBase();
+    }
+
+    private function handleFakeBase()
+    {
+        app()->setBasePath(base_path(Settings::folders('test_base')));
+
+        if (!file_exists(base_path())) mkdir(base_path());
     }
 
     public function tearDown(): void
