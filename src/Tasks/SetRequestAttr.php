@@ -43,9 +43,21 @@ class SetRequestAttr
         $specs = Settings::files("{$request['type']}") ?? [];
 
         return array_merge($specs, Arry::get($specs, 'family') != 'resources'
-            ? ['convention' => Arry::get($specs, 'convention') ?? 'pascal']
-            : Settings::resources($request['type']) ?? []
+            ? self::addConvention($specs)
+            : self::extendSpecs($request['type'])
         );
+    }
+
+    private static function addConvention(array $specs): array
+    {
+        return ['convention' => Arry::get($specs, 'convention') ?? 'pascal'];
+    }
+
+    private static function extendSpecs(string $type)
+    {
+        return Settings::resources(
+            $type == 'css' ? Settings::resourceOptions('css') : $type
+        ) ?? [];
     }
 
     private static function setPackage(?string $package): string
