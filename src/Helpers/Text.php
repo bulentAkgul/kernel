@@ -28,12 +28,12 @@ class Text
 
     public static function changeTail(string $str, string $add, string $glue = DIRECTORY_SEPARATOR): string
     {
-        return self::dropTail($str) . self::append($add, $glue);
+        return self::prepend(self::dropTail($str, $glue)) . $add;
     }
 
     public static function dropTail(string $value = '', string $seperator = DIRECTORY_SEPARATOR)
     {
-        return str_replace($seperator . self::getTail($value, $seperator), '', $value);
+        return implode($seperator, array_slice(explode($seperator, $value), 0, -1));
     }
 
     public static function capitalize(array|string $words, string $glue = '-')
