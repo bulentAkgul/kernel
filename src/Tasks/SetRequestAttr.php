@@ -32,7 +32,7 @@ class SetRequestAttr
             'name' => self::setName($request['name']),
             'variation' => $v = Request::variation($request, $specs),
             'stub' => self::setStub($request['type'], $v),
-            'subs' => self::setSubs($request['name']),
+            'subs' => self::setSubs($request['subs']),
             'path' => self::setPath($p, $specs['family'], $specs['path_schema']),
             'parent' => self::setParent($request),
         ];
@@ -80,9 +80,9 @@ class SetRequestAttr
         return $type . Text::append($variation ?? '', '.') . '.stub';
     }
 
-    private static function setSubs(string $name)
+    private static function setSubs(string $subs)
     {
-        return Path::set(Isolation::subs($name));
+        return explode(Settings::seperators('folder'), $subs);
     }
 
     private static function setPath(string $package, string $family, string $tail = ''): string
