@@ -44,14 +44,12 @@ class Path
         return self::head($name) . Text::append($path);
     }
 
-    public static function set(string|array $path, string $glue = DIRECTORY_SEPARATOR): array
+    public static function make(string|array $path, string $case = 'pascal', string $glue = DIRECTORY_SEPARATOR): array
     {
-        return is_string($path) ? array_filter(explode($glue, $path)) : $path;
-    }
-
-    public static function make(string|array $path, string $glue = DIRECTORY_SEPARATOR, string $case = 'pascal'): array
-    {
-        return array_map(fn ($x) => ConvertCase::_($x, $case), self::set($path, $glue));
+        return array_map(
+            fn ($x) => ConvertCase::_($x, $case),
+            is_string($path) ? array_filter(explode($glue, $path)) : $path
+        );
     }
 
     public static function stringify(array $path, bool $isFull = false): string
