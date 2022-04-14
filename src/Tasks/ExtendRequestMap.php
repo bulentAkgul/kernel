@@ -46,7 +46,7 @@ class ExtendRequestMap
 
     private static function setSubs(array $attr): string
     {
-        return Path::glue(Path::make($attr['subs'], case: $attr['convention']));
+        return Path::glue(Path::make($attr['subs'], $attr['convention']));
     }
 
     private static function setVariation(array $attr): string
