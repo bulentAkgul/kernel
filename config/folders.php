@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'abstract' => 'abstractions',
     'apps' => 'clients',
     'css' => 'styles',
     'js' => 'scripts',
