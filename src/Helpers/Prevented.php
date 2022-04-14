@@ -2,7 +2,7 @@
 
 namespace Bakgul\Kernel\Helpers;
 
-class Requirement
+class Prevented
 {
     public static function route($router)
     {
@@ -26,6 +26,6 @@ class Requirement
 
     public static function check($value, $key)
     {
-        return $value && !in_array($value, Settings::prohibitives($key));
+        return $value && in_array($value, Settings::prohibitives($key));
     }
 }
