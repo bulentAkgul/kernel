@@ -17,8 +17,6 @@ class CollectTypes
 
         self::setTypes($type);
 
-        ray(self::$types);
-
         array_map(fn ($x) => self::addRelatedTypes($x, $parent), self::$types);
 
         return self::$types;
