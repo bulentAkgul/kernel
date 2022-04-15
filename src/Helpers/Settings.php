@@ -13,8 +13,9 @@ class Settings
 
     public static function raw(string $key, string $keys = '')
     {
-        return config('packagify.essentials' . Text::append($keys, '.'))
-            ?? config('packagify' . Text::append($key, '.') . Text::append($keys, '.'));
+        return $keys
+            ? config("packagify.essentials.{$keys}") ?? config("packagify.{$key}.{$keys}")
+            : config('packagify' . Text::append($key, '.'));
     }
 
     public static function default(string $navigate, string $keys = '')
@@ -22,6 +23,11 @@ class Settings
         $data = self::get($navigate, $keys) ?? [''];
 
         return is_array($data) ? array_values($data)[0] : $data;
+    }
+
+    public static function essentials(string $keys = '')
+    {
+        return config('packagify.essentials' . Text::append($keys, '.'));
     }
 
     public static function apps(string $keys = '', ?callable $callback = null)
