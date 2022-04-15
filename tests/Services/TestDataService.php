@@ -7,6 +7,11 @@ use Illuminate\Support\Str;
 
 class TestDataService
 {
+    public static function scenarios()
+    {
+        return array_keys(self::standalone());
+    }
+    
     public static function standalone(string $key = '', ?bool $hasRoot = null)
     {
         $options = [
