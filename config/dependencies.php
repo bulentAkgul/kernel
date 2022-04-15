@@ -3,7 +3,7 @@
 return [
     'blade' => [
         'npm' => [
-            'prod' => ['alpinejs'],
+            'prod' => ['alpinejs', 'livewire'],
             'dev' => [],
         ],
     ],
