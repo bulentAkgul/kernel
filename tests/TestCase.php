@@ -21,7 +21,7 @@ abstract class TestCase extends BaseTestCase
 
         $this->handleFakeBase();
 
-        config()->set('evaluator.evaluate_command', true);
+        $this->evaluate(true);
     }
 
     private function handleFakeBase()
@@ -29,6 +29,11 @@ abstract class TestCase extends BaseTestCase
         app()->setBasePath(base_path(Settings::folders('test_base')));
 
         if (!file_exists(base_path())) mkdir(base_path());
+    }
+
+    protected function evaluate(bool $evaluate)
+    {
+        config()->set('packagify.evaluator.evaluate_commands', $evaluate);
     }
 
     public function tearDown(): void
