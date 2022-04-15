@@ -11,34 +11,35 @@ class GenerateNamespace
     public static function _(array $attr, string $path = ''): string
     {
         return implode('\\', array_filter([
-            self::root($attr), self::package($attr), self::family($attr), self::tail($path)
+            self::root(Arry::get($attr, 'root')),
+            self::package(Arry::get($attr, 'package')),
+            self::family(Arry::get($attr, 'family'), Arry::get($attr, 'package')),
+            self::tail($path)
         ]));
     }
 
-    public static function root(array $attr): string
+    public static function root(?string $root): string
     {
+        if (Settings::standalone('laravel')) return '';
+
         if (Settings::standalone('package')) return Settings::identity('namespace');
-        
-        if (Settings::standalone('laravel') || !$attr['root']) return '';
 
-        return Arry::value(Settings::roots(), $attr['root'], 'folder', '=', 'namespace')
-            ?: Settings::identity('namespace')
-            ?: ucfirst($attr['root']);
+        return $root ? Arry::value(Settings::roots(), $root, 'folder', '=', 'namespace') : '';
     }
 
-    public static function package(array $attr): string
+    public static function package(?string $package): string
     {
-        return Settings::standalone() || !$attr['package'] ? '' : ucfirst($attr['package']);
+        return !Settings::standalone() && $package ? ucfirst($package) : '';
     }
 
-    public static function family(array $attr): string
+    public static function family(?string $family, ?string $package): string
     {
         return match (true) {
-            Settings::standalone('package') => '',
-            Arry::get($attr, 'family') == null => '',
-            $attr['family'] != 'src' => ucfirst($attr['family']),
+            !$family => '',
+            $family != 'src' => ucfirst($family),
             Settings::standalone('laravel') => 'App',
-            default => $attr['package'] ? '' : 'App'
+            !Settings::standalone() && !$package => 'App',
+            default => ''
         };
     }
 
@@ -46,4 +47,23 @@ class GenerateNamespace
     {
         return Path::toNamespace($path);
     }
+
+    /**
+     * standalone laravel => [
+     *      src => App,
+     *      tests => Tests,
+     *      database => Database 
+     * standalone package => [
+     *      src => IdentitiyNamespace,
+     *      tests => IdentitiyNamespace\Tests,
+     *      database => IdentitiyNamespace\Database 
+     * packagified laravel to package => [
+     *      src => PackageRootsNamespace\Package
+     *      tests => PackageRootsNamespace\Package\Tests,
+     *      database => PackageRootsNamespace\Package\Database 
+     * packagified laravel to app => [
+     *      src => App,
+     *      tests => Tests,
+     *      database => Database 
+     */
 }
