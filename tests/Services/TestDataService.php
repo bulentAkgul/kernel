@@ -7,10 +7,33 @@ use Illuminate\Support\Str;
 
 class TestDataService
 {
+    public static function standalone(string $key = '', ?bool $hasRoot = null)
+    {
+        $options = [
+            'pl' => [
+                'sl' => false,
+                'sp' => false,
+                'root' => $hasRoot !== null ? [$hasRoot] : [true, false]
+            ],
+            'sl' => [
+                'sl' => true,
+                'sp' => false,
+                'root' => $hasRoot !== null ? [$hasRoot] : [true, false]
+            ],
+            'sp' => [
+                'sl' => false,
+                'sp' => true,
+                'root' => $hasRoot !== null ? [$hasRoot] : [true, false]
+            ]
+        ];
+
+        return $key ? $options[$key] : $options;
+    }
+
     public static function package(string $key = '', bool $standalone = false): array|string
     {
         if ($key == 'path') return '';
-        
+
         $package = [
             'namespace' => 'CurrentTest',
             'folder' => $f = $standalone ? '' : 'testings',

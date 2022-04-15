@@ -8,9 +8,9 @@ use Bakgul\Kernel\Tests\Services\TestDataService;
 
 class SetupTest
 {
-    public function __invoke(?array $standalones = null, bool $isBlank = false)
+    public function __invoke(?array $standalone = null, bool $isBlank = false)
     {
-        $this->standalone($standalones);
+        $this->standalone($standalone);
 
         $package = (new ManagePackage)->prepare($isBlank);
 
@@ -21,11 +21,11 @@ class SetupTest
         return $package;
     }
 
-    public function standalone($standalones)
+    public function standalone($standalone)
     {
-        if (!$standalones) return;
+        if (!$standalone) return;
         
-        config()->set('packagify.main.standalone_package', $standalones[0]);
-        config()->set('packagify.main.standalone_laravel', $standalones[1]);
+        config()->set('packagify.main.standalone_package', $standalone['sp']);
+        config()->set('packagify.main.standalone_laravel', $standalone['sl']);
     }
 }
