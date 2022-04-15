@@ -40,6 +40,15 @@ class Settings
         return self::get('code', $keys, $callback);
     }
 
+    public static function dependencies(string $keys = '', ?string $type = '')
+    {
+        $d = self::get('dependencies', $keys);
+        
+        return $type
+            ? Arry::get($d, $type)
+            : array_reduce(array_values($d), fn ($p, $c) => array_merge($p, $c), []);
+    }
+
     public static function evaluator(string $keys = '', ?callable $callback = null)
     {
         return self::get('evaluator', $keys, $callback);
