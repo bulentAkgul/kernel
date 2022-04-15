@@ -20,6 +20,8 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         $this->handleFakeBase();
+
+        config()->set('evaluator.evaluate_command', true);
     }
 
     private function handleFakeBase()
