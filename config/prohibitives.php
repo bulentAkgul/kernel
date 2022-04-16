@@ -2,7 +2,7 @@
 
 return [
     'route' => ['inertia', 'laravel'],
-    'store' => ['pinia'],
+    'store' => [],
     'css' => ['tailwind'],
     'view' => [],
 ];
