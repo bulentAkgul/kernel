@@ -28,7 +28,7 @@ class Text
 
     public static function changeTail(string $str, string $add, string $glue = DIRECTORY_SEPARATOR): string
     {
-        return self::prepend(self::dropTail($str, $glue)) . $add;
+        return self::prepend(self::dropTail($str, $glue), $glue) . $add;
     }
 
     public static function dropTail(string $value = '', string $seperator = DIRECTORY_SEPARATOR)
