@@ -2,6 +2,7 @@
 
 namespace Bakgul\Kernel\Tasks;
 
+use Bakgul\Kernel\Helpers\Arry;
 use Bakgul\Kernel\Helpers\Settings;
 use Illuminate\Support\Arr;
 
@@ -14,6 +15,14 @@ class MutateApp
         return [...array_keys($apps), ...self::pluck($apps)];
     }
 
+    public static function update(array $attr): array
+    {
+        return [
+            'apps' => Arry::get($attr, 'sharing') ? '' : Settings::folders('apps'),
+            'app' => Arry::get($attr, 'sharing') ? Settings::folders('shared') : $attr['app_folder'],
+        ];
+    }
+        
     public static function set(array $request): array
     {
         return [
