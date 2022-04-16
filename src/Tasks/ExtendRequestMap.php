@@ -19,6 +19,8 @@ class ExtendRequestMap
             'suffix' => self::setSuffix($request['attr']),
             'task' => self::setTask($request['attr']),
             'variation' => self::setVariation($request['attr']),
+            'prefix' => self::setPrefix($request['attr']),
+            'wrapper' => self::setWrapper($request['attr'])
         ]);
     }
 
@@ -52,5 +54,20 @@ class ExtendRequestMap
     private static function setVariation(array $attr): string
     {
         return ConvertCase::{$attr['convention']}(Settings::folders($attr['variation']), false);
+    }
+
+    private static function setPrefix(array $attr): string
+    {
+        return ConvertCase::{$attr['convention']}(Arry::get($attr, 'prefix') ?? '');
+    }
+
+    private static function setWrapper(array $attr): string
+    {
+        return $attr['job'] == 'file'
+            ? 'Http'
+            : ConvertCase::_(
+                Arry::get($attr, 'wrapper') ?? '',
+                Arry::get($attr, 'convention')
+            );
     }
 }
