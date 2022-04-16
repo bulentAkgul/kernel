@@ -7,6 +7,36 @@ use Illuminate\Support\Arr;
 
 class Arry
 {
+    public static function add(array $array, string|int $key = '', mixed $value = null): array
+    {
+        if (!$key) {
+            if (!self::hasNot($value, $array, 'value')) $array[] = $value;
+
+            return $array;
+        }
+
+        if (self::hasNot($key, $array)) $array[$key] = $value;
+
+        return $array;
+    }
+
+    public static function group(array $array, mixed $keys): array
+    {
+        $group = [];
+
+        foreach ($array as $value) {
+            $groupKey = Arr::get($value, $keys);
+
+            if (Arry::hasNot($groupKey, $group)) {
+                $group[$groupKey] = [];
+            }
+
+            $group[$groupKey][] = $value;
+        }
+
+        return $group;
+    }
+
     public static function random(array $array, int $length = 1): array
     {
         return array_slice(Arr::shuffle($array), 0, $length);
