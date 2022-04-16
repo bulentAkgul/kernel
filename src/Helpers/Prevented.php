@@ -4,6 +4,11 @@ namespace Bakgul\Kernel\Helpers;
 
 class Prevented
 {
+    public static function file(array $attr)
+    {
+        return !$attr['force'] && file_exists(Path::glue([$attr['path'], $attr['file']]));
+    }
+    
     public static function route($router)
     {
         return self::check($router, 'route');
