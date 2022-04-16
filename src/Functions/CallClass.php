@@ -1,0 +1,19 @@
+<?php
+
+namespace Bakgul\Kernel\Functions;
+
+use Bakgul\ResourceCreator\Tasks\GetClass;
+
+class CallClass
+{
+    public static function _(array $request, string $method, string $namespace, string $variation = null): bool
+    {
+        $class = GetClass::{$method}($request['attr'], $namespace, $variation);
+
+        if (!class_exists($class)) return false;
+
+        (new $class)->create($request);
+
+        return true;
+    }
+}

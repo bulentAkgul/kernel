@@ -1,6 +1,6 @@
 <?php
 
-namespace Bakgul\Kernel\Tasks;
+namespace Bakgul\Kernel\Tasks\RequestTasks;
 
 use Bakgul\Kernel\Helpers\Arry;
 use Bakgul\Kernel\Helpers\Isolation;
@@ -12,7 +12,7 @@ use Bakgul\Kernel\Helpers\Text;
 use Bakgul\Kernel\Tasks\ConvertCase;
 use Bakgul\Kernel\Tasks\MutateApp;
 
-class SetRequestAttr
+class GenerateAttr
 {
     public static function _(array $request): array
     {

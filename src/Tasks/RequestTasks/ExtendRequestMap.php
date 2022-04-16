@@ -1,6 +1,6 @@
 <?php
 
-namespace Bakgul\Kernel\Tasks;
+namespace Bakgul\Kernel\Tasks\RequestTasks;
 
 use Bakgul\Kernel\Helpers\Arry;
 use Bakgul\Kernel\Helpers\Folder;
