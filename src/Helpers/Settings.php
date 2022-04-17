@@ -11,11 +11,19 @@ class Settings
         return $callback && $data ? array_filter($data, $callback) : $data;
     }
 
-    public static function raw(string $key, string $keys = '')
+    public static function raw(string $key = '', string $keys = '')
     {
-        return $keys
-            ? config("packagify.essentials.{$keys}") ?? config("packagify.{$key}.{$keys}")
-            : config('packagify' . Text::append($key, '.'));
+        if ($keys) {
+            return config("packagify.essentials.{$key}.{$keys}")
+                ?? config("packagify.{$key}.{$keys}");
+        }
+
+        if ($key) {
+            return config("packagify.essentils.{$key}")
+                ?? config("packagify.{$key}");
+        }
+
+        return config('packagify');
     }
 
     public static function default(string $navigate, string $keys = '')
