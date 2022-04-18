@@ -4,6 +4,17 @@ namespace Bakgul\Kernel\Helpers;
 
 class Settings
 {
+    public static function set($key, $value, $isAppend)
+    {
+        $keys = implode('.', array_filter(["packagify", $key]));
+        $config = $isAppend ? config($keys) : null;
+        
+        config()->set($keys, is_array($config) && $isAppend
+            ? array_merge($config, (array) $value)
+            : $value
+        );
+    }
+
     public static function get(string $key = '', string $keys = '', ?callable $callback = null)
     {
         $data = self::raw($key, $keys);
