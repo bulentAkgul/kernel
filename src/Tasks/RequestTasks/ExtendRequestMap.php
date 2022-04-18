@@ -15,6 +15,7 @@ class ExtendRequestMap
         return array_merge($request['map'], [
             'container' => self::setContainer($request['attr']),
             'name' => self::setName($request['attr']),
+            'subs' => self::setSubs($request['attr']),
             'suffix' => self::setSuffix($request['attr']),
             'task' => self::setTask($request['attr']),
             'variation' => self::setVariation($request['attr']),
@@ -43,6 +44,11 @@ class ExtendRequestMap
         $folder = Folder::get($attr['category']);
 
         return strtoupper($folder) == $folder ? $folder : ConvertCase::{$attr['convention']}($folder);
+    }
+
+    private static function setSubs(array $attr): string
+    {
+        return Path::glue(Path::make($attr['subs'], $attr['convention']));
     }
 
     private static function setVariation(array $attr): string

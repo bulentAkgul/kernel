@@ -32,9 +32,9 @@ class GenerateAttr
             'name' => self::setName($request['name']),
             'variation' => $v = Request::variation($request, $specs),
             'stub' => self::setStub($request['type'], $v),
+            'subs' => self::setSubs($request['subs']),
             'path' => self::setPath($p, $specs['family'], $specs['path_schema']),
             'parent' => self::setParent($request),
-            ...self::setFolders($request['subs']),
         ];
     }
 
@@ -42,9 +42,11 @@ class GenerateAttr
     {
         $specs = Settings::files("{$request['type']}") ?? [];
 
-        return array_merge($specs, Arry::get($specs, 'family') != 'resources'
-            ? self::addConvention($specs)
-            : self::extendSpecs($request['type'])
+        return array_merge(
+            $specs,
+            Arry::get($specs, 'family') != 'resources'
+                ? self::addConvention($specs)
+                : self::extendSpecs($request['type'])
         );
     }
 
@@ -80,16 +82,9 @@ class GenerateAttr
         return $type . Text::append($variation ?? '', '.') . '.stub';
     }
 
-    private static function setFolders(string $subs)
+    private static function setSubs(string $subs)
     {
-        if (!$subs) return ['subs' => [], 'page_hierarchy' => []];
-
-        $parts = explode(Settings::seperators('addition'), $subs);
-
-        return [
-            'subs' => explode(Settings::seperators('folder'), Arry::get($parts, 1) ?? $parts[0]),
-            'page_hierarchy' => Arry::has(1, $parts) ? explode(Settings::seperators('folder'), $parts[0]) : []
-        ];
+        return explode(Settings::seperators('folder'), $subs);
     }
 
     private static function setPath(string $package, string $family, string $tail = ''): string
