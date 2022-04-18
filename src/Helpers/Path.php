@@ -4,6 +4,7 @@ namespace Bakgul\Kernel\Helpers;
 
 use Bakgul\Kernel\Tasks\ConvertCase;
 use Bakgul\Kernel\Helpers\Convention;
+use Illuminate\Support\Str;
 
 class Path
 {
@@ -50,6 +51,20 @@ class Path
             fn ($x) => ConvertCase::_($x, $case),
             is_string($path) ? array_filter(explode($glue, $path)) : $path
         );
+    }
+
+    public static function slugify(string|array $path, string $glue = DIRECTORY_SEPARATOR): string
+    {
+        if (is_string($path)) {
+            foreach ([$glue, '/', '.', DIRECTORY_SEPARATOR] as $separator) {
+                $parts = explode($separator, $path);
+                if (count($parts) > 1) continue;
+                $path = $parts;
+                break;
+            }
+        }
+
+        return implode('/', array_map(fn ($x) => Str::slug($x), $path));
     }
 
     public static function stringify(array $path, bool $isFull = false): string

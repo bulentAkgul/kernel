@@ -110,6 +110,11 @@ class Settings
         return self::get('npm', $keys, $callback);
     }
 
+    public static function prohibitives(string $keys = '', ?callable $callback = null)
+    {
+        return self::get('prohibitives', $keys, $callback);
+    }
+
     public static function requires(string $keys = '', ?callable $callback = null)
     {
         return array_values(self::get('requires', $keys, $callback));
@@ -130,9 +135,9 @@ class Settings
         return self::get('roots', $keys, $callback);
     }
 
-    public static function prohibitives(string $keys = '', ?callable $callback = null)
+    public static function router(string $keys = '', ?callable $callback = null)
     {
-        return self::get('prohibitives', $keys, $callback);
+        return self::get('router', $keys, $callback);
     }
 
     public static function seeders(string $keys = '', ?callable $callback = null)
