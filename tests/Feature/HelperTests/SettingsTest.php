@@ -10,7 +10,6 @@ class SettingsTest extends TestCase
     /** @test */
     public function settings_get_simple_value()
     {
-        ray(Settings::apps());
         $this->assertNotNull(Settings::apps());
     }
 }
