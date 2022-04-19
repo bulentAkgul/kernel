@@ -117,7 +117,7 @@ class MakeFileList
         if ($type['variation'] != 'section' && self::$subject == 'resource') return [''];
 
         $tasks = Settings::files("{$type['type']}.tasks") ?? [''];
-
+    
         if (empty(array_filter($tasks))) return $tasks;
 
         if ($taskless) return $type['status'] == 'main' ? [''] : [];
@@ -130,8 +130,7 @@ class MakeFileList
 
     private static function canBeAll($name, $type)
     {
-        return in_array($type['status'], ['pair', 'main'])
-            && (empty(array_filter($name['tasks'])) || in_array('all', $name['tasks']));
+        return in_array($type['status'], ['pair', 'main']) && !array_filter($name['tasks']);
     }
 
     private static function addParentFiles($types)

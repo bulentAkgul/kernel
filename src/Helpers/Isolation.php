@@ -35,7 +35,7 @@ class Isolation
     {
         $tasks = explode(Settings::seperators('addition'), self::part($name, 1));
 
-        return $type && in_array('all', $tasks)
+        return $type && !array_filter($tasks)
             ? Settings::files(self::type($type) . ".tasks")
             : $tasks;
     }

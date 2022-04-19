@@ -23,6 +23,6 @@ class ResolveTasks
 
     private static function mustBeAll(array $tasks, bool $fillable): bool
     {
-        return in_array('all', $tasks) || empty(array_filter($tasks)) && $fillable;
+        return !array_filter($tasks) && $fillable;
     }
 }
