@@ -4,7 +4,7 @@ namespace Bakgul\Kernel\Helpers;
 
 class Settings
 {
-    public static function set($key, $value, $isAppend)
+    public static function set($key, $value, $isAppend = false)
     {
         $keys = implode('.', array_filter(["packagify", $key]));
         $config = $isAppend ? config($keys) : null;
