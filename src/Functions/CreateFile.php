@@ -11,7 +11,7 @@ class CreateFile
     public static function _($request)
     {
         if (Prevented::file($request['attr'])) return;
-
+        
         CompleteFolders::_($request['attr']['path']);
 
         MakeFile::_($request);

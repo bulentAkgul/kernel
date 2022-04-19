@@ -4,7 +4,6 @@ namespace Bakgul\Kernel\Tests;
 
 use Bakgul\Kernel\Concerns\CreatesApplication;
 use Bakgul\Kernel\Helpers\Settings;
-use Bakgul\Kernel\Tests\Tasks\TierDownTest;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
@@ -38,8 +37,6 @@ abstract class TestCase extends BaseTestCase
 
     public function tearDown(): void
     {
-        (new TierDownTest)($this->testPackage, $this->removables['after']);
-
         parent::tearDown();
     }
 }
