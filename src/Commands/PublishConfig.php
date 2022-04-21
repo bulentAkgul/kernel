@@ -3,6 +3,7 @@
 namespace Bakgul\Kernel\Commands;
 
 use Bakgul\Kernel\Concerns\HasConfig;
+use Bakgul\Kernel\Tasks\SetEssentials;
 use Bakgul\Kernel\Helpers\Arry;
 use Illuminate\Console\Command;
 use Bakgul\Kernel\Helpers\Package;
@@ -28,13 +29,15 @@ class PublishConfig extends Command
 
         if (file_exists($target)) {
             if (!$this->option('force')) return;
-            
+
             unlink($target);
         }
-        
+
         $this->collect();
 
         $this->combine();
+
+        $this->essentials();
 
         file_put_contents($target, implode(PHP_EOL, $this->configs));
     }
@@ -44,12 +47,20 @@ class PublishConfig extends Command
         $src = Path::base(['vendor', 'bakgul']);
 
         foreach (Package::vendor($this->argument('package')) as $package) {
-            foreach($this->getConfigs(Path::glue([$src, $package])) as $key => $config) {
+            foreach ($this->getConfigs(Path::glue([$src, $package])) as $key => $config) {
                 $this->configs[$key] = array_merge(Arry::get($this->configs, $key) ?? [], $config);
             }
         }
 
         ksort($this->configs);
+    }
+
+    private function essentials()
+    {
+        $this->configs = [
+            'essentials' => SetEssentials::_(),
+            ...$this->configs
+        ];
     }
 
     private function combine()
