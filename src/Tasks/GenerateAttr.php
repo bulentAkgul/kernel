@@ -1,6 +1,6 @@
 <?php
 
-namespace Bakgul\Kernel\Tasks\RequestTasks;
+namespace Bakgul\Kernel\Tasks;
 
 use Bakgul\Kernel\Helpers\Arry;
 use Bakgul\Kernel\Helpers\Isolation;
