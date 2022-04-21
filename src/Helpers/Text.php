@@ -74,11 +74,11 @@ class Text
         return trim($string, $characters . ($append ? " ,;\t\n\r" : ""));
     }
 
-    public static function replaceByMap(array $map, string $string, bool $append = false, ?string $glue = null): string
+    public static function replaceByMap(array $map, string $string, bool $append = false, string $glue = DIRECTORY_SEPARATOR): string
     {
         return str_replace(
             array_map(fn ($x) => "{{ {$x} }}", array_keys($map)),
-            array_map(fn ($x) => $append ? self::append($x, $glue ?? DIRECTORY_SEPARATOR) : $x, array_values($map)),
+            array_map(fn ($x) => $append ? self::append($x, $glue) : $x, array_values($map)),
             $string
         );
     }
