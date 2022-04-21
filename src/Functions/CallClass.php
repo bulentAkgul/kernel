@@ -2,7 +2,7 @@
 
 namespace Bakgul\Kernel\Functions;
 
-use Bakgul\ResourceCreator\Tasks\GetClass;
+use Bakgul\Kernel\Tasks\GetClass;
 
 class CallClass
 {
@@ -12,7 +12,7 @@ class CallClass
 
         if (!class_exists($class)) return false;
 
-        (new $class)->create($request);
+        (new $class)($request);
 
         return true;
     }
