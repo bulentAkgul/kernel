@@ -2,8 +2,7 @@
 
 namespace Bakgul\Kernel\Concerns;
 
-use Bakgul\Kernel\Helpers\Isolation;
-use Bakgul\Kernel\Helpers\Settings;
+use Bakgul\Kernel\Functions\SetPipeline;
 
 trait HasRequest
 {
@@ -14,21 +13,8 @@ trait HasRequest
             'command' => $this->request,
             'queue' => $queue,
             'signature' => $this->resolveSignature(),
-            'pipeline' => $this->setPipeline()
+            'pipeline' => SetPipeline::_($this->request)
         ]);
-    }
-
-    private function setPipeline()
-    {
-        $type = Isolation::type($this->request['type']);
-
-        if ($type == 'view') {
-            $type = Isolation::extra($this->request['type'])
-                ?: Settings::apps("{$this->request['app']}.type")
-                ?: $type;
-        }
-
-        return ['type' => $type, ...(Settings::resources($type) ?? [])];
     }
 
     public function makePackageRequest(): array
