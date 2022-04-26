@@ -12,7 +12,7 @@ class CallClass
 
         if (!class_exists($class)) return false;
 
-        (new $class)($request);
+        (new $class)->create($request);
 
         return true;
     }
