@@ -5,7 +5,7 @@ return [
         'type' => 'vue',
         'folder' => 'admin',
         'route_group' => 'admin',
-        'router' =>  'inertia',
+        'router' =>  'vue-router',
         'medium' => 'browser',
     ],
     'desktop' => [
