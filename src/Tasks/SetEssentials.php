@@ -15,7 +15,7 @@ class SetEssentials
         foreach (self::keys() as $key) {
             self::merge(Arr::undot([$key => Settings::get($key)]));
         }
-        ray(self::$essentials);
+
         return self::$essentials;
     }
 
