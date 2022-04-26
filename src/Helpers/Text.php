@@ -31,9 +31,9 @@ class Text
         return self::prepend(self::dropTail($str, $glue), $glue) . $add;
     }
 
-    public static function dropTail(string $value = '', string $seperator = DIRECTORY_SEPARATOR)
+    public static function dropTail(string $value = '', string $seperator = DIRECTORY_SEPARATOR, int $length = 1)
     {
-        return implode($seperator, array_slice(explode($seperator, $value), 0, -1));
+        return implode($seperator, array_slice(explode($seperator, $value), 0, -1 * $length));
     }
 
     public static function capitalize(array|string $words, string $glue = '-')
