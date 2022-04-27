@@ -3,7 +3,7 @@
 namespace Bakgul\Kernel\Functions;
 
 use Bakgul\FileContent\Functions\MakeFile;
-use Bakgul\FileContent\Tasks\CompleteFolders;
+use Bakgul\Kernel\Tasks\CompleteFolders;
 use Bakgul\Kernel\Helpers\Prevented;
 
 class CreateFile

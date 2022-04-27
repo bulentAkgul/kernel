@@ -7,7 +7,7 @@ use Bakgul\Kernel\Helpers\Package;
 use Bakgul\Kernel\Helpers\Path;
 use Bakgul\Kernel\Helpers\Settings;
 use Bakgul\Kernel\Tests\Services\TestDataService;
-use Bakgul\FileContent\Tasks\CompleteFolders;
+use Bakgul\Kernel\Tasks\CompleteFolders;
 use Illuminate\Filesystem\Filesystem;
 
 class ManagePackage
