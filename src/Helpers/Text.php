@@ -21,6 +21,29 @@ class Text
         return $str ? "{$str}{$glue}" : $str;
     }
 
+    public static function containsSome(string $str, string|array $search): bool
+    {
+        return array_reduce(
+            is_array($search) ? $search : [$search],
+            fn ($p, $c) => $p || str_contains($str, $c),
+            false
+        );
+    }
+
+    public static function containsNone(string $str, string|array $search): bool
+    {
+        return !self::containsSome($str, $search);
+    }
+
+    public static function containsAll(string $str, string|array $search): bool
+    {
+        return array_reduce(
+            is_array($search) ? $search : [$search],
+            fn ($p, $c) => $p && str_contains($str, $c),
+            true
+        );
+    }
+
     public static function getTail(string $value = '', string $seperator = DIRECTORY_SEPARATOR)
     {
         return array_reverse(explode($seperator, $value))[0];
