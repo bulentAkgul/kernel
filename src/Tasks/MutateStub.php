@@ -67,8 +67,9 @@ class MutateStub
             'code' => 'laravel-code-generator',
             'file' => 'laravel-file-creator',
             'package' => 'laravel-package-generator',
+            'relation' => 'laravel-code-generator',
             'resource' => 'laravel-resource-creator',
-            'packagify' => 'packagified-laravel'
+            'packagify' => 'packagified-laravel',
         ][$folder];
     }
 
