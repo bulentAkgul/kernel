@@ -26,9 +26,9 @@ class Convention
         return $value ? ConvertCase::camel($value, true) : '';
     }
 
-    public static function table($value)
+    public static function table($value, ?bool $isSingular = false)
     {
-        return $value ? ConvertCase::snake($value, false) : '';
+        return $value ? ConvertCase::snake($value, $isSingular) : '';
     }
 
     public static function affix(string $value, bool $isSingular = true)
