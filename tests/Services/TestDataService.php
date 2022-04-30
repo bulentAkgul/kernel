@@ -138,11 +138,11 @@ class TestDataService
     public static function createRelationCommandBase()
     {
         return [
-            'command' => 'code:relation',
+            'command' => 'create:relation',
             'relation' => 'oto',
             'from' => 'user',
             'to' => 'post',
-            'pivot' => null,
+            'mediator' => null,
             'polymorphic' => false,
         ];
     }
