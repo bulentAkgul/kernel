@@ -29,6 +29,11 @@ class TestDataService
                 'sl' => false,
                 'sp' => true,
                 'root' => $hasRoot !== null ? [$hasRoot] : [true, false]
+            ],
+            'conflict' => [
+                'sl' => true,
+                'sp' => true,
+                'root' => $hasRoot !== null ? [$hasRoot] : [true, false]
             ]
         ];
 

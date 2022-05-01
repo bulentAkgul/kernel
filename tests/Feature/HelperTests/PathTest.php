@@ -5,6 +5,7 @@ namespace Bakgul\Kernel\Tests\Feature\HelperTests;
 use Bakgul\Kernel\Tests\Concerns\HasTestMethods;
 use Bakgul\Kernel\Helpers\Package;
 use Bakgul\Kernel\Helpers\Path;
+use Bakgul\Kernel\Tests\Services\TestDataService;
 use Bakgul\Kernel\Tests\Tasks\SetupTest;
 use Bakgul\Kernel\Tests\TestCase;
 
@@ -20,7 +21,7 @@ class PathTest extends TestCase
         config()->set('packagify.apps.admin.folder', 'xxx');
 
         foreach ($this->families as $family) {
-            $this->testPackage = (new SetupTest)([false, false]);
+            $this->testPackage = (new SetupTest)(TestDataService::standalone('pl'));
 
             $this->assertEquals(
                 $this->path($family),
@@ -47,7 +48,7 @@ class PathTest extends TestCase
                 Path::head('unknown_package_name', $family)
             );
 
-            $this->testPackage = (new SetupTest)([false, true]);
+            $this->testPackage = (new SetupTest)(TestDataService::standalone('sl'));
 
             $this->assertEquals(
                 $this->path($family),
@@ -74,7 +75,7 @@ class PathTest extends TestCase
                 Path::head('unknown_package_name', $family)
             );
 
-            $this->testPackage = (new SetupTest)([true, false]);
+            $this->testPackage = (new SetupTest)(TestDataService::standalone('sp'));
 
             $this->assertEquals(
                 base_path($family),
@@ -101,7 +102,7 @@ class PathTest extends TestCase
                 Path::head('unknown_package_name', $family)
             );
 
-            $this->testPackage = (new SetupTest)([true, true]);
+            $this->testPackage = (new SetupTest)(TestDataService::standalone('conflict'));
 
             $this->assertEquals(
                 base_path($family),
@@ -133,7 +134,12 @@ class PathTest extends TestCase
     private function path($family, $isPackage = false)
     {
         return $isPackage
-            ? Path::base([Package::container(), $this->testPackage['folder'], $this->testPackage['name'], $family])
+            ? Path::base([$this->container(), $this->testPackage['folder'], $this->testPackage['name'], $family])
             : base_path($family == 'src' ? 'app' : $family);
+    }
+
+    private function container()
+    {
+        return trim(Package::container(), DIRECTORY_SEPARATOR);
     }
 }
