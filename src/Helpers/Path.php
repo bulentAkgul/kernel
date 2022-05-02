@@ -75,14 +75,14 @@ class Path
         );
     }
 
-    public static function toNamespace($path)
+    public static function toNamespace(string|array $path)
     {
         return implode('\\', array_map(function ($folder) {
             return Arry::has($folder, Settings::folders(), 'value')
                 || Text::case($folder) == 'pascal'
                 ? $folder
                 : Convention::namespace($folder, null);
-        }, array_filter(Text::serialize($path))));
+        }, is_array($path) ? $path : array_filter(Text::serialize($path))));
     }
 
     public static function realBase(string $path = '')
