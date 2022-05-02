@@ -8,7 +8,7 @@ use Bakgul\Kernel\Helpers\Path;
 
 class GenerateNamespace
 {
-    public static function _(array $attr, string $path = ''): string
+    public static function _(array $attr, string|array $path = ''): string
     {
         return implode('\\', array_filter([
             self::root(Arry::get($attr, 'root')),
@@ -29,41 +29,22 @@ class GenerateNamespace
 
     public static function package(?string $package): string
     {
-        return !Settings::standalone() && $package ? ucfirst($package) : '';
+        return !Settings::standalone() && $package ? ConvertCase::pascal($package) : '';
     }
 
     public static function family(?string $family, ?string $package): string
     {
         return match (true) {
             !$family => '',
-            $family != 'src' => ucfirst($family),
+            $family != 'src' => ConvertCase::pascal($family),
             Settings::standalone('laravel') => 'App',
             !Settings::standalone() && !$package => 'App',
             default => ''
         };
     }
 
-    public static function tail(string $path)
+    public static function tail(string|array $path)
     {
         return Path::toNamespace($path);
     }
-
-    /**
-     * standalone laravel => [
-     *      src => App,
-     *      tests => Tests,
-     *      database => Database 
-     * standalone package => [
-     *      src => IdentitiyNamespace,
-     *      tests => IdentitiyNamespace\Tests,
-     *      database => IdentitiyNamespace\Database 
-     * packagified laravel to package => [
-     *      src => PackageRootsNamespace\Package
-     *      tests => PackageRootsNamespace\Package\Tests,
-     *      database => PackageRootsNamespace\Package\Database 
-     * packagified laravel to app => [
-     *      src => App,
-     *      tests => Tests,
-     *      database => Database 
-     */
 }
