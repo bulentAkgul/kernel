@@ -11,9 +11,17 @@ class Text
         return $str ? "{$glue}{$str}" : $str;
     }
 
-    public static function inject(string $str = '', string $glue = DIRECTORY_SEPARATOR): string
+    public static function inject(string $str = '', string|array $glue = DIRECTORY_SEPARATOR): string
     {
-        return $str ? "{$glue}{$str}{$glue}" : $str;
+        if (!$str || !$glue) return $str;
+        
+        if (is_string($glue)) return "{$glue}{$str}{$glue}";
+
+        $glue[1] = count($glue) == 1 ? Arry::get(
+            ['{' => '}', '(' => ')', '[' => ']'], $glue[0]
+        ) ?? $glue[0] : $glue[1];
+
+        return "{$glue[0]}{$str}{$glue[1]}";
     }
 
     public static function prepend(string $str = '', string $glue = DIRECTORY_SEPARATOR): string
