@@ -18,22 +18,22 @@ class TestDataService
             'pl' => [
                 'sl' => false,
                 'sp' => false,
-                'root' => $hasRoot !== null ? [$hasRoot] : [true, false]
+                'root' => $hasRoot
             ],
             'sl' => [
                 'sl' => true,
                 'sp' => false,
-                'root' => $hasRoot !== null ? [$hasRoot] : [true, false]
+                'root' => $hasRoot
             ],
             'sp' => [
                 'sl' => false,
                 'sp' => true,
-                'root' => $hasRoot !== null ? [$hasRoot] : [true, false]
+                'root' => $hasRoot
             ],
             'conflict' => [
                 'sl' => true,
                 'sp' => true,
-                'root' => $hasRoot !== null ? [$hasRoot] : [true, false]
+                'root' => $hasRoot
             ]
         ];
 
