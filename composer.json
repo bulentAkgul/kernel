@@ -1,6 +1,6 @@
 {
   "name": "bakgul/kernel",
-  "description": "Create Laravel files easily.",
+  "description": "A helper package to collect all shared methods, data, settings, etc.",
   "authors": [
     {
       "name": "Bulent Akgul",
