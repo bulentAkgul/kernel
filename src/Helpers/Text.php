@@ -11,22 +11,35 @@ class Text
         return $str ? "{$glue}{$str}" : $str;
     }
 
-    public static function inject(string $str = '', string|array $glue = DIRECTORY_SEPARATOR): string
-    {
-        if (!$str || !$glue) return $str;
-        
-        if (is_string($glue)) return "{$glue}{$str}{$glue}";
-
-        $glue[1] = count($glue) == 1 ? Arry::get(
-            ['{' => '}', '(' => ')', '[' => ']'], $glue[0]
-        ) ?? $glue[0] : $glue[1];
-
-        return "{$glue[0]}{$str}{$glue[1]}";
-    }
-
     public static function prepend(string $str = '', string $glue = DIRECTORY_SEPARATOR): string
     {
         return $str ? "{$str}{$glue}" : $str;
+    }
+
+    public static function inject(string $str = '', array $glue = []): string
+    {
+        if (!$str || !$glue) return $str;
+
+        foreach (is_array($glue) ? array_reverse($glue) : [$glue] as $wrap) {
+            $str = self::wrap($str, $wrap);
+        }
+
+        return $str;
+    }
+
+    public static function wrap(string $str, string $glue = DIRECTORY_SEPARATOR): string
+    {
+        if (!$str || !$glue) return $str;
+
+        $glue = Arry::get([
+            'sq' => ["'", "'"],
+            'dq' => ['"', '"'],
+            '{' => ['{', '}'],
+            '(' => ['(', ')'],
+            '[' => ['[', ']']
+        ], $glue) ?? [$glue, $glue];
+
+        return "{$glue[0]}{$str}{$glue[1]}";
     }
 
     public static function containsSome(string $str, string|array $search): bool
