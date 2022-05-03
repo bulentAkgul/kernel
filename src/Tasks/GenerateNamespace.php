@@ -4,6 +4,7 @@ namespace Bakgul\Kernel\Tasks;
 
 use Bakgul\Kernel\Helpers\Settings;
 use Bakgul\Kernel\Helpers\Arry;
+use Bakgul\Kernel\Helpers\Package;
 use Bakgul\Kernel\Helpers\Path;
 
 class GenerateNamespace
@@ -12,8 +13,8 @@ class GenerateNamespace
     {
         return implode('\\', array_filter([
             self::root(Arry::get($attr, 'root')),
-            self::package(Arry::get($attr, 'package')),
-            self::family(Arry::get($attr, 'family'), Arry::get($attr, 'package')),
+            $p = self::package(Arry::get($attr, 'package')),
+            self::family(Arry::get($attr, 'family'), $p),
             self::tail($path)
         ]));
     }
@@ -29,7 +30,7 @@ class GenerateNamespace
 
     public static function package(?string $package): string
     {
-        return !Settings::standalone() && $package ? ConvertCase::pascal($package) : '';
+        return !Settings::standalone() && Package::root($package) ? ConvertCase::pascal($package) : '';
     }
 
     public static function family(?string $family, ?string $package): string
