@@ -116,7 +116,7 @@ class Arry
         }, []));
     }
 
-    public static function find(array $array, int|float|string|array $search, string $keys = '', string $operator = '='): ?array
+    public static function find(array $array, int|float|string|array $search, string $keys = '', string $operator = '=', bool $nullable = true): ?array
     {
         $segments = array_filter(explode('.', $keys));
 
@@ -146,7 +146,7 @@ class Arry
             }
         }
 
-        return null;
+        return $nullable ? null : ['key' => null, 'value' => null];
     }
 
     public static function has(string $search, array $array, string $lookAt = 'key'): bool
