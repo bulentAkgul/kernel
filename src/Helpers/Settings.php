@@ -8,7 +8,7 @@ class Settings
     {
         $keys = implode('.', array_filter(["packagify", $key]));
         $config = $isAppend ? config($keys) : null;
-        
+
         config()->set($keys, is_array($config) && $isAppend
             ? array_merge($config, (array) $value)
             : $value
@@ -88,6 +88,11 @@ class Settings
     public static function identity(string $keys = '', ?callable $callback = null)
     {
         return self::get('identity', $keys, $callback);
+    }
+
+    public static function logs(string $keys = '', ?callable $callback = null)
+    {
+        return self::get('logs', $keys, $callback);
     }
 
     public static function main(string $keys = '', ?callable $callback = null)
