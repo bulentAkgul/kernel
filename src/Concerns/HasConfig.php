@@ -5,27 +5,15 @@ namespace Bakgul\Kernel\Concerns;
 use Bakgul\Kernel\Helpers\Arry;
 use Bakgul\Kernel\Helpers\Folder;
 use Bakgul\Kernel\Helpers\Path;
+use Bakgul\Kernel\Helpers\Settings;
 use Bakgul\Kernel\Helpers\Text;
 
 trait HasConfig
 {
-    public function getConfigs(string $path)
-    {
-        $configs = [];
-
-        foreach ($this->getConfigFiles($path) as $key => $file) {
-            $configs[$key] = $this->fetch($file);
-        }
-
-        return $configs;
-    }
-
     public function registerConfigs(string $path)
     {
-        if (file_exists(Path::base(['config', 'packagify.php']))) return;
-
         foreach ($this->getConfigFiles($path) as $key => $file) {
-            config()->set("packagify.{$key}", $this->mergeConfigs($key, $file));
+            Settings::set($key, $this->mergeConfigs($key, $file));
         }
     }
 
@@ -35,22 +23,33 @@ trait HasConfig
 
         if (!file_exists($path)) return [];
 
+        $isAppend = $this->isConfigPublished();
+
         $files = [];
 
-        foreach (Folder::content($path) as $file) {
-            if (str_contains($file, '.ignore')) continue;
-
+        foreach ($this->files($path, $isAppend) as $file) {
             $files[str_replace('.php', '', $file)] = Path::glue([$path, $file]);
         }
 
         return $files;
     }
 
-    private function fetch($file) {
-        return array_map(
-            fn ($x) => "    {$x}",
-            array_slice(Text::split(trim(file_get_contents($file))), 3, -1)
+    private function isConfigPublished()
+    {
+        return file_exists(Path::base(['config', 'packagify.php']));
+    }
+
+    private function files($path, $isAppend)
+    {
+        return array_filter(
+            $isAppend ? $this->ignoredFiles($path) : Folder::content($path),
+            fn ($x) => $x != '.ignore.php'
         );
+    }
+
+    private function ignoredFiles($path)
+    {
+        return array_map(fn ($x) => "{$x}.php", require Path::glue([$path, '.ignore.php']));
     }
 
     private function mergeConfigs($key, $file)
@@ -64,5 +63,24 @@ trait HasConfig
         }
 
         return $config;
+    }
+
+    public function getConfigs(string $path)
+    {
+        $configs = [];
+
+        foreach ($this->getConfigFiles($path) as $key => $file) {
+            $configs[$key] = $this->fetch($file);
+        }
+
+        return $configs;
+    }
+
+    private function fetch($file)
+    {
+        return array_map(
+            fn ($x) => "    {$x}",
+            array_slice(Text::split(trim(file_get_contents($file))), 3, -1)
+        );
     }
 }
