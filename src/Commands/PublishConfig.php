@@ -34,12 +34,10 @@ class PublishConfig extends Command
         }
 
         $this->collect();
-
+        
         $this->combine();
 
-        $this->essentials();
-
-        file_put_contents($target, implode(PHP_EOL, $this->configs));
+        $this->write($target);
     }
 
     private function collect()
@@ -47,7 +45,7 @@ class PublishConfig extends Command
         $src = Path::base(['vendor', 'bakgul']);
 
         foreach (Package::vendor($this->argument('package')) as $package) {
-            foreach ($this->getConfigs(Path::glue([$src, $package])) as $key => $config) {
+            foreach ($this->collectConfig($src, $package) as $key => $config) {
                 $this->configs[$key] = array_merge(Arry::get($this->configs, $key) ?? [], $config);
             }
         }
@@ -55,12 +53,21 @@ class PublishConfig extends Command
         ksort($this->configs);
     }
 
+    private function collectConfig($src, $package)
+    {
+        $path = Path::glue([$src, $package]);
+        $ignore = require Path::glue([$path, 'config', '.ignore.php']);
+
+        return array_filter(
+            $this->getConfigs($path),
+            fn ($x) => !in_array($x, $ignore),
+            ARRAY_FILTER_USE_KEY
+        );
+    }
+
     private function essentials()
     {
-        $this->configs = [
-            'essentials' => SetEssentials::_(),
-            ...$this->configs
-        ];
+        $this->configs = [SetEssentials::_(), ...$this->configs];
     }
 
     private function combine()
@@ -77,5 +84,10 @@ class PublishConfig extends Command
         array_push($configs, '];');
 
         $this->configs = $configs;
+    }
+
+    private function write($target): void
+    {
+        file_put_contents($target, implode(PHP_EOL, $this->configs));
     }
 }
