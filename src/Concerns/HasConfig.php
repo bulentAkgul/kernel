@@ -38,6 +38,8 @@ trait HasConfig
         $files = [];
 
         foreach (Folder::content($path) as $file) {
+            if (str_contains($file, '.ignore')) continue;
+
             $files[str_replace('.php', '', $file)] = Path::glue([$path, $file]);
         }
 
