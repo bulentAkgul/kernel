@@ -2,6 +2,7 @@
 
 namespace Bakgul\Kernel\Tasks;
 
+use Bakgul\Kernel\Functions\SetRouter;
 use Bakgul\Kernel\Helpers\Arry;
 use Bakgul\Kernel\Helpers\Settings;
 use Illuminate\Support\Arr;
@@ -25,11 +26,13 @@ class MutateApp
         
     public static function set(array $request): array
     {
+        $app = self::getKey($request);
+
         return [
-            'app_key' => $k = self::getKey($request),
-            'app_type' => self::obtainValue($k, 'type'),
-            'app_folder' => self::obtainValue($k, 'folder'),
-            'router' => self::obtainValue($k, 'router'),
+            'app_key' => $app,
+            'app_type' => self::obtainValue($app, 'type'),
+            'app_folder' => self::obtainValue($app, 'folder'),
+            'router' => SetRouter::_($app)
         ];
     }
 
