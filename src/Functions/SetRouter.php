@@ -8,9 +8,11 @@ class SetRouter
 {
     public static function _(?string $key): string
     {
-        if (!$key && Settings::apps("{$key}.router")) return '';
+        if (!$key) return '';
 
-        $router = Settings::resources(Settings::apps("{$key}.type") . '.options.router') ?? '';
+        $router = Settings::apps("{$key}.router")
+            ?: Settings::resources(Settings::apps("{$key}.type") . '.options.router')
+            ?: '';
 
         Settings::set("apps.{$key}.router", $router);
 
