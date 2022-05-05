@@ -21,7 +21,7 @@ class Prevented
 
     public static function css()
     {
-        return self::check(Settings::resourceOptions('css'), 'css');
+        return self::check(Settings::main('css'), 'css');
     }
 
     public static function view($view)

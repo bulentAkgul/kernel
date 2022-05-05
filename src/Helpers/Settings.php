@@ -8,7 +8,7 @@ class Settings
     {
         $keys = implode('.', array_filter(["packagify", $key]));
         $config = $isAppend ? config($keys) : null;
-
+        
         config()->set($keys, is_array($config) && $isAppend
             ? array_merge($config, (array) $value)
             : $value
@@ -105,6 +105,11 @@ class Settings
         return self::get('messages', $keys, $callback);
     }
 
+    public static function needs(string $keys = '', ?callable $callback = null)
+    {
+        return self::get('needs', $keys, $callback);
+    }
+
     public static function prefixes(string $keys = '', ?callable $callback = null)
     {
         return self::get('prefixes', $keys, $callback);
@@ -125,11 +130,6 @@ class Settings
         return array_values(self::get('requires', $keys, $callback));
     }
 
-    public static function resourceOptions(string $keys = '', ?callable $callback = null)
-    {
-        return self::get('resource_options', $keys, $callback);
-    }
-
     public static function resources(string $keys = '', ?callable $callback = null)
     {
         return self::get('resources', $keys, $callback);
@@ -140,9 +140,9 @@ class Settings
         return self::get('roots', $keys, $callback);
     }
 
-    public static function router(string $keys = '', ?callable $callback = null)
+    public static function routes(string $keys = '', ?callable $callback = null)
     {
-        return self::get('router', $keys, $callback);
+        return self::get('routes', $keys, $callback);
     }
 
     public static function seeders(string $keys = '', ?callable $callback = null)
@@ -165,8 +165,8 @@ class Settings
         return self::get('structures', $keys, $callback);
     }
 
-    public static function symbols(string $keys = '', ?callable $callback = null)
+    public static function tasks(string $keys = '', ?callable $callback = null)
     {
-        return self::get('symbols', $keys, $callback);
+        return self::get('tasks', $keys, $callback);
     }
 }

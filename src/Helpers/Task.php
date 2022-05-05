@@ -8,7 +8,7 @@ class Task
     {
         return array_values(array_intersect(
             Settings::files("{$fileType}.tasks") ?? [],
-            Settings::main("tasks." . (str_contains($key, 'api') ? 'api' : 'all'))
+            Settings::tasks(str_contains($key, 'api') ? 'api' : 'all')
         ));
     }
 
@@ -19,6 +19,6 @@ class Task
 
     public static function droppable(string $task, string $variation = ''): bool
     {
-        return str_contains($variation, 'api') && !in_array($task, Settings::main("tasks.api"));
+        return str_contains($variation, 'api') && !in_array($task, Settings::tasks('api'));
     }
 }

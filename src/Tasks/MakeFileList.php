@@ -124,7 +124,7 @@ class MakeFileList
 
         return array_filter(
             self::canBeAll($name, $type) ? array_filter($tasks) : $name['tasks'],
-            fn ($x) => in_array($x, Settings::main('tasks.' . self::$taskKey))
+            fn ($x) => in_array($x, Settings::tasks(self::$taskKey))
         );
     }
 

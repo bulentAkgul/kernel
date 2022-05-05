@@ -147,7 +147,7 @@ class CollectTypes
 
     private static function parent(array $type): array
     {
-        $parents = Settings::main('need_parent');
+        $parents = Settings::needs('parent');
 
         return [[
             'type' => Arry::get($parents, $type['type'])

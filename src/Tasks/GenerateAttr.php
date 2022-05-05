@@ -58,7 +58,7 @@ class GenerateAttr
     private static function extendSpecs(string $type)
     {
         return Settings::resources(
-            $type == 'css' ? Settings::resourceOptions('css') : $type
+            $type == 'css' ? Settings::main('css') : $type
         ) ?? [];
     }
 

@@ -79,8 +79,8 @@ class ManagePackage
     {
         if (Settings::standalone()) return;
 
-        config()->set(
-            "packagify.roots.{$this->package['folder']}",
+        Settings::set(
+            "roots.{$this->package['folder']}",
             array_filter($this->package, fn ($x) => $x != 'name', ARRAY_FILTER_USE_KEY)
         );
     }

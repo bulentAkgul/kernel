@@ -32,7 +32,7 @@ abstract class TestCase extends BaseTestCase
 
     protected function evaluate(bool $evaluate)
     {
-        config()->set('packagify.evaluator.evaluate_commands', $evaluate);
+        Settings::set('evaluator.evaluate_commands', $evaluate);
     }
 
     public function tearDown(): void

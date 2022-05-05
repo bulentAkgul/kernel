@@ -2,6 +2,8 @@
 
 namespace Bakgul\Kernel\Tests\Tasks;
 
+use Bakgul\Kernel\Helpers\Settings;
+
 class SetupTest
 {
     public function __invoke(?array $standalone = null, bool $isBlank = false)
@@ -19,7 +21,7 @@ class SetupTest
     {
         if (!$standalone) return;
         
-        config()->set('packagify.main.standalone_package', $standalone['sp']);
-        config()->set('packagify.main.standalone_laravel', $standalone['sl']);
+        Settings::set('main.standalone_package', $standalone['sp']);
+        Settings::set('main.standalone_laravel', $standalone['sl']);
     }
 }

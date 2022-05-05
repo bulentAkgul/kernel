@@ -5,6 +5,7 @@ namespace Bakgul\Kernel\Tests\Feature\HelperTests;
 use Bakgul\Kernel\Tests\Concerns\HasTestMethods;
 use Bakgul\Kernel\Helpers\Package;
 use Bakgul\Kernel\Helpers\Path;
+use Bakgul\Kernel\Helpers\Settings;
 use Bakgul\Kernel\Tests\Services\TestDataService;
 use Bakgul\Kernel\Tests\Tasks\SetupTest;
 use Bakgul\Kernel\Tests\TestCase;
@@ -18,7 +19,7 @@ class PathTest extends TestCase
     /** @test */
     public function path_head()
     {
-        config()->set('packagify.apps.admin.folder', 'xxx');
+        Settings::set('apps.admin.folder', 'xxx');
 
         foreach ($this->families as $family) {
             $this->testPackage = (new SetupTest)(TestDataService::standalone('pl'));

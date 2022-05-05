@@ -18,7 +18,7 @@ class ResolveTasks
 
     private static function getTasks(array $tasks, string $taskKey, bool $fillable): array
     {
-        return self::mustBeAll($tasks, $fillable) ? Settings::main('tasks.' . $taskKey) : $tasks;
+        return self::mustBeAll($tasks, $fillable) ? Settings::tasks($taskKey) : $tasks;
     }
 
     private static function mustBeAll(array $tasks, bool $fillable): bool

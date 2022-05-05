@@ -10,7 +10,7 @@ class CollectTypes
 {
     public static function _($type, $command = 'files', $parent = '')
     {
-        $types = Arry::combine(Settings::main('status'), default: []);
+        $types = Arry::combine(Settings::get('status'), default: []);
 
         foreach (Collector::_($type, $command, $parent) as $type) {
             if (Arry::hasNot($type['status'], $types))
