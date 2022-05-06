@@ -3,7 +3,6 @@
 namespace Bakgul\Kernel\Commands;
 
 use Bakgul\Kernel\Concerns\HasConfig;
-use Bakgul\Kernel\Tasks\SetEssentials;
 use Bakgul\Kernel\Helpers\Arry;
 use Illuminate\Console\Command;
 use Bakgul\Kernel\Helpers\Package;
@@ -65,11 +64,6 @@ class PublishConfig extends Command
         );
     }
 
-    private function essentials()
-    {
-        $this->configs = [SetEssentials::_(), ...$this->configs];
-    }
-
     private function combine()
     {
         $configs = [];
@@ -80,10 +74,33 @@ class PublishConfig extends Command
             $configs = array_merge($configs, $config);
         }
 
-        array_splice($configs, 0, 0, ['<?php', '', 'return [']);
+        array_splice($configs, 0, 0, ['<?php', '', ...$this->message(), '', 'return [']);
         array_push($configs, '];');
 
         $this->configs = $configs;
+    }
+
+    private function message(): array
+    {
+        return [
+            "/*",
+            "|--------------------------------------------------------------------------",
+            "| Packagified Laravel Settings",
+            "|--------------------------------------------------------------------------",
+            "|",
+            "| This config file can be seen overwelmingly long, but don't worry, you",
+            "| won't need to deal with most part probably. But before everything else,",
+            "| there are some settings that should be set:",
+            "| • apps, ",
+            "| • identity,",
+            "| • repository,",
+            "| • requires,",
+            "| • roots,",
+            "|",
+            "| You can find more details about those settings in the comment blocks.",
+            "|",
+            "*/",
+        ];
     }
 
     private function write($target): void
