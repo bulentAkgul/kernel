@@ -39,6 +39,6 @@ class CollectFiles
 
     private static function setPackageBase($package): string
     {
-        return Path::glue([Settings::main('packages_root'), Package::root($package), $package, "src"]);
+        return Path::glue([Settings::folders('packages'), Package::root($package), $package, "src"]);
     }
 }

@@ -15,6 +15,7 @@ return [
     'apps' => 'clients',
     'css' => 'styles',
     'js' => 'scripts',
+    'packages' => 'packages',
     'shared' => '_',
     'test_base' => '_test_repo',
     'view' => 'views',

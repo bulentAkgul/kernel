@@ -157,7 +157,7 @@ class Settings
 
     public static function standalone(string $key = '')
     {
-        return $key ? self::get('main', "standalone_{$key}") : self::standalone('laravel') || self::standalone('package');
+        return $key ? self::get('repository', "standalone_{$key}") : self::standalone('laravel') || self::standalone('package');
     }
 
     public static function structures(string $keys = '', ?callable $callback = null)

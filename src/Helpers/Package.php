@@ -15,7 +15,7 @@ class Package
     public static function container(bool $prepend = true)
     {
         return Text::prepend(
-            Settings::standalone() ? '' : Settings::main('packages_root'),
+            Settings::standalone() ? '' : Settings::folders('packages'),
             $prepend ? DIRECTORY_SEPARATOR : ''
         );
     }
@@ -53,7 +53,7 @@ class Package
 
         foreach (self::roots($root) as $root) {
             $packages = array_merge($packages, Folder::content(
-                Path::base([Settings::main('packages_root'), $root])
+                Path::base([Settings::folders('packages'), $root])
             ));
         }
 
