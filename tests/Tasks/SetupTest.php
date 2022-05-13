@@ -21,7 +21,7 @@ class SetupTest
     {
         if (!$standalone) return;
         
-        Settings::set('main.standalone_package', $standalone['sp']);
-        Settings::set('main.standalone_laravel', $standalone['sl']);
+        Settings::set('repository.standalone_package', $standalone['sp']);
+        Settings::set('repository.standalone_laravel', $standalone['sl']);
     }
 }
