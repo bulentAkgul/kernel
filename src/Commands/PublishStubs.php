@@ -10,10 +10,8 @@ use Bakgul\Kernel\Helpers\Path;
 
 class PublishStubs extends Command
 {
-    protected $signature = 'packagify:publish-stub {package?} {--f|force}';
+    protected $signature = 'packagify:publish-stub {--f|force}';
     protected $description = '';
-
-    private $paths = [];
 
     public function __construct()
     {
@@ -24,7 +22,7 @@ class PublishStubs extends Command
     {
         array_map(
             fn ($package) => $this->publish($package),
-            Package::vendor($this->argument('package'))
+            Package::vendor('all')
         );
     }
 
@@ -56,7 +54,11 @@ class PublishStubs extends Command
     private function copy(array $files, string $target)
     {
         foreach ($files as $name => $src) {
-            copy($src, Path::glue([$target, $name]));
+            $file = Path::glue([$target, $name]);
+
+            if (!file_exists($file) || $this->option('force')) {
+                copy($src, Path::glue([$target, $name]));
+            }
         }
     }
 }

@@ -12,7 +12,7 @@ class PublishConfig extends Command
 {
     use HasConfig;
 
-    protected $signature = 'packagify:publish-config {package?} {--f|force}';
+    protected $signature = 'packagify:publish-config {--f|force}';
     protected $description = '';
 
     private $configs = [];
@@ -43,7 +43,7 @@ class PublishConfig extends Command
     {
         $src = Path::base(['vendor', 'bakgul']);
 
-        foreach (Package::vendor($this->argument('package')) as $package) {
+        foreach (Package::vendor('all') as $package) {
             foreach ($this->collectConfig($src, $package) as $key => $config) {
                 $this->configs[$key] = array_merge(Arry::get($this->configs, $key) ?? [], $config);
             }
