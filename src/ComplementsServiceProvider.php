@@ -13,6 +13,7 @@ class ComplementsServiceProvider extends ServiceProvider
     {
         $this->commands([
             \Bakgul\Kernel\Commands\CountLinesCommand::class,
+            \Bakgul\Kernel\Commands\GetHelpCommand::class,
             \Bakgul\Kernel\Commands\PublishConfig::class,
             \Bakgul\Kernel\Commands\PublishStubs::class,
         ]);

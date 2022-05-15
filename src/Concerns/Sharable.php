@@ -6,21 +6,24 @@ use Bakgul\Kernel\Tasks\SerializeSignature;
 
 trait Sharable
 {
-    public function getSignature(): string
+    public function getSignature(): array
     {
-        return $this->signature;
+        return array_filter(array_map('trim', explode("\n", $this->signature)));
     }
 
     public function resolveSignature()
     {
-        return SerializeSignature::_($this->getSignature());
+        return SerializeSignature::_($this->signature);
     }
 
     public function getCommandHelp(): array
     {
         return [
             'signature' => $this->getSignature(),
-            'description' => $this->description
+            'description' => $this->description,
+            'examples' => $this->examples,
+            'arguments' => $this->arguments,
+            'options' => $this->options,
         ];
     }
 }
