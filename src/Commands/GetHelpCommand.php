@@ -203,10 +203,6 @@ class GetHelpCommand extends Command
             'namespace' => '\Bakgul\FileCreator\Commands\CreateFileCommand',
             'package' => 'laravel-file-creator',
         ],
-        'resource' => [
-            'namespace' => '\Bakgul\ResourceCreator\Commands\CreateResourceCommand',
-            'package' => 'laravel-resource-creator',
-        ],
         'package' => [
             'namespace' => '\Bakgul\PackageGenerator\Commands\CreatePackageCommand',
             'package' => 'laravel-package-generator',
@@ -214,6 +210,10 @@ class GetHelpCommand extends Command
         'relation' => [
             'namespace' => '\Bakgul\CodeGenerator\Commands\GenerateRelationshipCommand',
             'package' => 'laravel-code-generator',
+        ],
+        'resource' => [
+            'namespace' => '\Bakgul\ResourceCreator\Commands\CreateResourceCommand',
+            'package' => 'laravel-resource-creator',
         ],
     ];
 }
