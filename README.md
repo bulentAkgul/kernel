@@ -9,7 +9,7 @@ On the other hand, its real purpose is to collect some classes and methods that 
 sail composer require bakgul/kernel
 ```
 ## Commands
-This packages ships with 3 console commands.
+This packages ships with 4 console commands.
 
 ### Publish Config
 Before you start using one of the main packages, you should publish the settings in order to be able to modify them.
@@ -19,7 +19,7 @@ sail artisan packagify:publish-config
 #### Arguments
 This command has no argument.
 #### Options
-+ Force: To make it work, append " **-f** " or " **--force** " to the command. When it's passed, the config file will be regenerated, and all the changes you made will be lost.
++ **force**: To make it work, append " **-f** " or " **--force** " to the command. When it's passed, the config file will be regenerated, and all the changes you made will be lost.
 
 ### Publish Stubs
 If any stub doesn't meet your needs, you can edit them as you wish. But first, you have to publish them. It's safe to delete the unedited stubs after publishing. 
@@ -29,7 +29,18 @@ sail artisan packagify:publish-stub
 #### Arguments
 This command has no argument.
 #### Options
-+ Force: To make it work, append " **-f** " or " **--force** " to the command. When it's passed, the stubs will be swapped with the default ones.
++ **force**: To make it work, append " **-f** " or " **--force** " to the command. When it's passed, the stubs will be swapped with the default ones.
+
+### Display Helps
+To display the help content in the terminal, you can use this command.
+```
+sail artisan get-help {from}
+```
+#### Arguments
++ **from**: This is the identifier of the other commands that have help content to display. In order the see the list of the identifiers, run the command without this argument.
+#### Options
+This command has no options.
+
 ### Count Code Lines
 ```
 sail artisan count {path?}
