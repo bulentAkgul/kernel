@@ -4,7 +4,6 @@ namespace Bakgul\Kernel\Tasks;
 
 use Bakgul\Kernel\Helpers\Path;
 use Bakgul\Kernel\Helpers\Text;
-use Bakgul\FileHistory\Services\LogServices\ForUndoingLogService;
 
 class CompleteFolders
 {
@@ -71,10 +70,12 @@ class CompleteFolders
 
     private static function log(array $folders, bool $loggable)
     {
-        if (!$loggable) return;
+        $class = "\Bakgul\FileHistory\Services\LogServices\ForUndoingLogService";
+
+        if (!$loggable || !class_exists($class)) return;
 
         foreach ($folders as $path) {
-            ForUndoingLogService::set($path, true, true);
+            $class::set($path, true, true);
         }
     }
 }
