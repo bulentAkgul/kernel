@@ -9,9 +9,9 @@ class Prevented
         return !$attr['force'] && file_exists(Path::glue([$attr['path'], $attr['file']]));
     }
     
-    public static function route($router)
+    public static function route(string $router, string $type)
     {
-        return self::check($router, 'route');
+        return self::check($router ?: Settings::resources("{$type}.options.reouter") ?: '', 'route');
     }
 
     public static function store($type)
