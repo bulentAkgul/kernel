@@ -13,7 +13,7 @@ class GenerateNamespace
     {
         return implode('\\', array_filter([
             self::root(Arry::get($attr, 'root')),
-            $p = self::package(Arry::get($attr, 'package')),
+            $p = self::package(Arry::get($attr, 'package'), $attr['job']),
             self::family(Arry::get($attr, 'family'), $p),
             self::tail($path)
         ]));
@@ -28,9 +28,11 @@ class GenerateNamespace
         return $root ? Arry::value(Settings::roots(), $root, 'folder', '=', 'namespace') : '';
     }
 
-    public static function package(?string $package): string
+    public static function package(?string $package, string $job = ''): string
     {
-        return !Settings::standalone() && Package::root($package) ? ConvertCase::pascal($package) : '';
+        return !Settings::standalone() && ($job == 'package' || Package::root($package)) 
+            ? ConvertCase::pascal($package)
+            : '';
     }
 
     public static function family(?string $family, ?string $package): string
