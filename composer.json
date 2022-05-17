@@ -1,6 +1,6 @@
 {
   "name": "bakgul/kernel",
-  "description": "A helper package to collect all shared methods, data, settings, etc.",
+  "description": "This is a helper package, and it isn't meant to be used independently. That being said, it contains some nice helper classes to deal with the file system, strings, arrays, naming conventions, etc. If you need such functionalities, you may find this package helpful. On the other hand, its real purpose is to collect some classes and methods that are being used by multiple packages that are part of Packagified Laravel.",
   "authors": [
     {
       "name": "Bulent Akgul",
