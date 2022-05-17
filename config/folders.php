@@ -7,8 +7,8 @@ return [
     |--------------------------------------------------------------------------
     |
     | These are the folders that may not be following the naming standards.
-    | You can remove any value from the list. If a key isn't found, it'll
-    | become the folder. The values here will not be modified.
+    | You can remove any value from the list. If a key isn't found on the
+    | list, it'll become the folder. The values here will not be modified.
     |
     */
     'abstract' => 'abstractions',

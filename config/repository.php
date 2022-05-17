@@ -6,17 +6,19 @@ return [
     | Repository
     |--------------------------------------------------------------------------
     |
-    | Whit Packagified Laravel, you can work with 3 types of repositories,
-    | and you will tell which type it's by changing the settings here.
+    | With Packagified Laravel, you can work with 3 types of repositories.
+    | You will tell your app type by changing the settings here. These
+    | values shouldn't be changed in the future. I didn't test what happens
+    | if you do so, but I bet it will ruin your app.
     | 
-    | Standalone Laravel: Meke it "true" if it's a very standard Laravel app.
-    | Standalone Package: Make it "true" if you are developing a package that
-    |                     will be installed through composer.
-    |
-    | If both standalone settings are set to "false", then your repository
-    | will be a packagified Laravel. This means you will have a normal
-    | Laravel repository, but the functionalities will be splitted into
-    | the packages instead of "app" and "resources" folders.
+    | Standalone Laravel: Make it "true" if it's a standard Laravel app.
+    | Standalone Package: Make it "true" if you are developing a package
+    |                     that will be installed through composer.
+    | 
+    | If both standalone settings are "false," your repository will be
+    | a Packagified Laravel. This means you will have a normal Laravel
+    | repository. But, the functionalities will be split into the packages
+    | instead of being coded in the "app" and "resources" folders.
     |
     */
     'standalone_laravel' => false,
