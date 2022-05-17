@@ -70,9 +70,9 @@ class Text
         return array_reverse(explode($seperator, $value))[0];
     }
 
-    public static function changeTail(string $str, string $add, string $glue = DIRECTORY_SEPARATOR): string
+    public static function changeTail(string $str, string $add, string $glue = DIRECTORY_SEPARATOR, int $length = 1): string
     {
-        return self::prepend(self::dropTail($str, $glue), $glue) . $add;
+        return self::prepend(self::dropTail($str, $glue, $length), $glue) . $add;
     }
 
     public static function dropTail(string $value = '', string $seperator = DIRECTORY_SEPARATOR, int $length = 1)
