@@ -55,7 +55,11 @@ class PublishConfig extends Command
     private function collectConfig($src, $package)
     {
         $path = Path::glue([$src, $package]);
-        $ignore = require Path::glue([$path, 'config', '.ignore.php']);
+        $ignore = Path::glue([$path, 'config', '.ignore.php']);
+        
+        if (!file_exists($ignore)) return [];
+        
+        $ignore = require $ignore;
 
         return array_filter(
             $this->getConfigs($path),
