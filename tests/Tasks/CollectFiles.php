@@ -19,7 +19,7 @@ class CollectFiles
     {
         $this->src = Path::glue([Text::dropTail(__DIR__), 'RequiredFiles']);
 
-        $this->copyComposer();
+        $this->copyRootFiles();
 
         if ($isBlank) return;
 
@@ -27,13 +27,12 @@ class CollectFiles
 
         $this->copyFamilyFiles($package, $family);
     }
-    
-    private function copyComposer()
+
+    private function copyRootFiles()
     {
-        copy(
-            Path::glue([$this->src, 'composer.json']),
-            base_path('composer.json')
-        );
+        foreach (['composer.json', 'phpunit.xml'] as $file) {
+            copy(Path::glue([$this->src, $file]), base_path($file));
+        }
     }
 
     private function copyMainFiles(string $path)
