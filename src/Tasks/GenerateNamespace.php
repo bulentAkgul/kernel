@@ -25,7 +25,10 @@ class GenerateNamespace
 
         if (Settings::standalone('package')) return Settings::identity('namespace');
 
-        return $root ? Arry::value(Settings::roots(), $root, 'folder', '=', 'namespace') : '';
+        if (!$root) return '';
+
+        return Arry::value(Settings::roots(), $root, 'folder', '=', 'namespace')
+            ?? Settings::identity('namespace');
     }
 
     public static function package(?string $package, string $job = ''): string
