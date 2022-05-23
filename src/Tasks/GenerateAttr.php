@@ -96,6 +96,10 @@ class GenerateAttr
     {
         $parts = $request['parent'] ? explode(Settings::seperators('modifier'), $request['parent']) : [];
 
+        if (!$parts && $request['variation'] == 'section' && $request['taskless']) {
+            $parts = ['', '', '', ''];
+        }
+        
         return [
             'name' => Arry::get($parts, 0) ?? $request['name'],
             'type' => Arry::get($parts, 1) ?? $request['type'],
