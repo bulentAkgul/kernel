@@ -83,7 +83,7 @@ class MakeFileList
                 fn ($x) => self::setFile($name, $type, $x),
                 self::explodeTasks($name, $type, $taskless)
             ),
-            fn ($x) => in_array($x['task'], Settings::files("{$type['type']}.tasks"))
+            fn ($x) => in_array($x['task'], ['', ...self::setTasks($type)])
         );
     }
 
@@ -116,7 +116,7 @@ class MakeFileList
     {
         if ($type['variation'] != 'section' && self::$subject == 'resource') return [''];
 
-        $tasks = Settings::files("{$type['type']}.tasks") ?? [''];
+        $tasks = self::setTasks($type);
     
         if (empty(array_filter($tasks))) return $tasks;
 
@@ -126,6 +126,12 @@ class MakeFileList
             self::canBeAll($name, $type) ? array_filter($tasks) : $name['tasks'],
             fn ($x) => in_array($x, Settings::tasks(self::$taskKey))
         );
+    }
+
+    private static function setTasks($type)
+    {
+        return Settings::files("{$type['type']}.tasks")
+            ?: (self::$subject == 'resource' ? Settings::main('tasks_have_views') : ['']);
     }
 
     private static function canBeAll($name, $type)
