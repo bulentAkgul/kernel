@@ -45,19 +45,19 @@ class Package
             MutateApp::set(['package' => $package, 'app' => null])['app_key'];
     }
 
-    public static function list(string $root = ''): array
+    public static function list(string $root = '', bool $isGroupped = false): array
     {
         if (Settings::standalone('laravel')) return [];
         
         $packages = [];
 
         foreach (self::roots($root) as $root) {
-            $packages = array_merge($packages, Folder::content(
+            $packages[$root] = Folder::content(
                 Path::base([Settings::folders('packages'), $root])
-            ));
+            );
         }
 
-        return $packages;
+        return $isGroupped ? $packages : array_merge(...array_values($packages));
     }
 
     private static function roots($root)
