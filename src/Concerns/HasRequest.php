@@ -3,6 +3,7 @@
 namespace Bakgul\Kernel\Concerns;
 
 use Bakgul\Kernel\Functions\SetPipeline;
+use Bakgul\Kernel\Helpers\Arry;
 
 trait HasRequest
 {
@@ -13,7 +14,7 @@ trait HasRequest
             'command' => $this->request,
             'queue' => $queue,
             'signature' => $this->resolveSignature(),
-            'pipeline' => SetPipeline::_($this->request)
+            'pipeline' => $this->setPipeline()
         ]);
     }
 
@@ -26,5 +27,10 @@ trait HasRequest
             'variation' => '',
             'family' => 'src',
         ];
+    }
+
+    private function setPipeline()
+    {
+        return Arry::get($this->request, 'pipeline') ?? SetPipeline::_($this->request);
     }
 }
