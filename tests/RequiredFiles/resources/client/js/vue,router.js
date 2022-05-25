@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import AppLayout from "../admin/App.vue";
 /** IMPORTS */
+
 /** ROUTES */
 const routes = [
   {

@@ -48,13 +48,9 @@ class CollectFiles
         foreach (Settings::apps() as $app) {
             foreach (['view', 'js', 'css'] as $type) {
                 $this->setFiles($app['type'], $type);
-
-                if (empty($this->files)) continue;
-
-                $resource = Settings::resources($app['type']);
-
-                $this->copyOptionalFiles($resource, $package, $family, $app, $type);
-
+                
+                if ($this->noFile()) continue;
+                
                 $this->copyFiles($this->files, $package, $family, $app, $type);
             }
         }
@@ -62,10 +58,44 @@ class CollectFiles
 
     private function setFiles($appType, $fileType)
     {
-        $this->files = array_values(array_filter(
-            Folder::content(Path::glue([$this->src, 'resources', $fileType])),
-            fn ($x) => str_contains($x, "{$appType},")
-        ));
+        foreach ($this->listFiles() as $folder => $files) {
+            $this->files[$folder] = $this->reduceList($files, $appType, $fileType);
+        }
+    }
+
+    private function reduceList($files, $appType, $fileType)
+    {
+        return array_filter($files, fn ($x) => $this->isFileRequired($x, $appType, $fileType));
+    }
+
+    private function listFiles()
+    {
+        $files = [];
+
+        foreach ($this->setSrcFolders() as $folder) {
+            $files[$folder] = Folder::files(Path::glue([$this->src, 'resources', $folder]));
+        }
+
+        return $files;
+    }
+
+    private function noFile(): bool
+    {
+        return !array_reduce($this->files, fn ($p, $c) => $p + count($c));
+    }
+
+    private static function setSrcFolders()
+    {
+        return match(true) {
+            Settings::standalone('laravel') => ['client'],
+            Settings::standalone('package') => ['package'],
+            default => ['client', 'package']
+        };
+    }
+
+    private function isFileRequired($path, $appType, $fileType)
+    {
+        return Text::containsAll($path, [$fileType . DIRECTORY_SEPARATOR , "{$appType},"]);
     }
 
     private function copyOptionalFiles($resource, $package, $family, $app, $type)
@@ -87,13 +117,17 @@ class CollectFiles
 
     private function copyFiles($files, $package, $family, $app, $type)
     {
-        array_map(fn ($x) => $this->copy($x, $package, $family, $app, $type), $files);
+        foreach ($files as $folder => $paths) {
+            foreach ($paths as $file) {
+                $this->copy($file, $package, $family, $app, $type, $folder);
+            }
+        }
     }
 
-    private function copy($file, $package, $family, $app, $type)
+    private function copy($file, $package, $family, $app, $type, $folder)
     {
         $path = Path::glue(array_filter([
-            $package['path'],
+            $folder == 'client' ? base_path() : $package['path'],
             Settings::folders($family),
             $family == 'resources' ? Settings::folders('apps') : '',
             $app['folder'],
@@ -103,10 +137,7 @@ class CollectFiles
 
         CompleteFolders::_($path, false);
 
-        copy(
-            Path::glue([$this->src, $family, $type, $file]),
-            Path::glue([$path, Arry::get(explode(',', $file), 'L')])
-        );
+        copy($file, Path::glue([$path, Arry::get(explode(',', $file), 'L')]));
     }
 
     private function subs(string $file)
