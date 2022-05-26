@@ -9,5 +9,5 @@ return [
     | This value will be set to api routes as auth middleware.
     |
     */
-    'auth' => 'sanctum'
+    'auth' => 'sanctum',
 ];
