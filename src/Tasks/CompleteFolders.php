@@ -2,6 +2,7 @@
 
 namespace Bakgul\Kernel\Tasks;
 
+use Bakgul\Kernel\Functions\DumpFeedback;
 use Bakgul\Kernel\Helpers\Path;
 use Bakgul\Kernel\Helpers\Text;
 
@@ -64,6 +65,8 @@ class CompleteFolders
         if (file_exists($path)) return '';
 
         mkdir($path);
+
+        DumpFeedback::_($path, 'folder');
         
         return $path;
     }
