@@ -80,6 +80,11 @@ class Text
         return implode($seperator, array_slice(explode($seperator, $value), 0, -1 * $length));
     }
 
+    public static function separateTail(string $value = '', string $seperator = DIRECTORY_SEPARATOR, int $length = 1)
+    {
+        return [self::dropTail($value, $seperator, $length), self::getTail($value, $seperator, $length)];
+    }
+
     public static function capitalize(array|string $words, string $glue = '-')
     {
         return self::format('ucfirst', $words, $glue);
