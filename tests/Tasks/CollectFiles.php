@@ -17,9 +17,11 @@ class CollectFiles
 
     public function _(array $package, string $family, bool $isBlank)
     {
-        $this->src = Path::glue([Text::dropTail(__DIR__), 'RequiredFiles']);
+        $this->setSrc();
 
         $this->copyRootFiles();
+
+        $this->copyAppFiles();
 
         if ($isBlank) return;
 
@@ -28,10 +30,30 @@ class CollectFiles
         $this->copyFamilyFiles($package, $family);
     }
 
+    private function setSrc()
+    {
+        $this->src = Path::glue([Text::dropTail(__DIR__), 'RequiredFiles']);
+    }
+
     private function copyRootFiles()
     {
         foreach (['composer.json', 'phpunit.xml'] as $file) {
             copy(Path::glue([$this->src, $file]), base_path($file));
+        }
+    }
+
+    private function copyAppFiles()
+    {
+        foreach (Folder::files(Path::glue([$this->src, 'app'])) as $file) {
+            [$path, $name] = Text::separateTail($file);
+
+            $target = Path::glue(
+                [base_path('app'), explode('app' . DIRECTORY_SEPARATOR, $path)[1]]
+            );
+
+            CompleteFolders::_($target, false);
+
+            copy($file, Path::glue([$target, $name]));
         }
     }
 
@@ -48,9 +70,9 @@ class CollectFiles
         foreach (Settings::apps() as $app) {
             foreach (['view', 'js', 'css'] as $type) {
                 $this->setFiles($app['type'], $type);
-                
+
                 if ($this->noFile()) continue;
-                
+
                 $this->copyFiles($this->files, $package, $family, $app, $type);
             }
         }
@@ -86,7 +108,7 @@ class CollectFiles
 
     private static function setSrcFolders()
     {
-        return match(true) {
+        return match (true) {
             Settings::standalone('laravel') => ['client'],
             Settings::standalone('package') => ['package'],
             default => ['client', 'package']
@@ -95,7 +117,7 @@ class CollectFiles
 
     private function isFileRequired($path, $appType, $fileType)
     {
-        return Text::containsAll($path, [$fileType . DIRECTORY_SEPARATOR , "{$appType},"]);
+        return Text::containsAll($path, [$fileType . DIRECTORY_SEPARATOR, "{$appType},"]);
     }
 
     private function copyOptionalFiles($resource, $package, $family, $app, $type)
