@@ -11,7 +11,8 @@ class SetBlockSpecs
             'isStrict' => true,
             'repeat' => 1,
             'part' => '',
-            'isSortable' => false
+            'isSortable' => false,
+            'jump' => '',
         ], $specs);
     }
 }

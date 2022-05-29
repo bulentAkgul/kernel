@@ -12,7 +12,8 @@ class SetLineSpecs
             'part' => '',
             'repeat' => 0,
             'isSortable' => true,
-            'isEmpty' => false
+            'isEmpty' => false,
+            'jump' => ''
         ], $specs);
     }
 }
