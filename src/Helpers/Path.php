@@ -40,9 +40,14 @@ class Path
         return Arry::stringify($parts, $glue);
     }
 
+    public static function adapt(string $path): string
+    {
+        return str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
+    }
+
     public static function package(string $name, string $path = ''): string
     {
-        return self::head($name) . Text::append($path);
+        return self::head($name) . Text::append(self::adapt($path));
     }
 
     public static function make(string|array $path, string $case = 'pascal', string $glue = DIRECTORY_SEPARATOR): array
