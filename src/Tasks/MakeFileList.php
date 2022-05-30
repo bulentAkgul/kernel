@@ -199,7 +199,7 @@ class MakeFileList
     {
         return array_merge(
             $s = self::getRequireFileSpecs($type),
-            ['path' => str_replace('/', DIRECTORY_SEPARATOR, $s['path']) ?: self::makeRequirePath($s)]
+            ['path' => Path::adapt($s['path']) ?: self::makeRequirePath($s)]
         );
     }
 
