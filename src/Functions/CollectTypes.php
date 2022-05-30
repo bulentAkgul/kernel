@@ -8,7 +8,7 @@ use Bakgul\Kernel\Tasks\CollectTypes as Collector;
 
 class CollectTypes
 {
-    public static function _($type, $command = 'files', $parent = '')
+    public static function _(string $type, string $command = 'files', ?string $parent = '')
     {
         $types = Arry::combine(Settings::get('status'), default: []);
 

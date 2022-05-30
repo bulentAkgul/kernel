@@ -17,6 +17,7 @@ class MakeFileList
 {
     public static array $request;
     public static array $files;
+    public static array $types;
     public static string $taskKey;
     public static string $subject;
     public static string $package = '';
@@ -41,22 +42,22 @@ class MakeFileList
 
     public static function collectFiles(array $request, string $called)
     {
-        $types = CollectTypes::_($request['type'], parent: $request['parent']);
+        self::$types = CollectTypes::_($request['type'], parent: $request['parent']);
 
         foreach (ResolveNames::_($request['name']) as $name) {
             foreach (['main', 'pair'] as $status) {
-                if (Arry::hasNot($status, $types)) continue;
+                if (Arry::hasNot($status, self::$types)) continue;
 
                 self::appendFiles(
-                    self::addFiles($name, $types[$status], $request['taskless']),
+                    self::addFiles($name, $status, $request['taskless']),
                     $called
                 );
             }
         }
 
-        self::addParentFiles($types['parent']);
+        self::addParentFiles();
 
-        if (self::$subject == 'file') self::addRequireFiles($types['require']);
+        if (self::$subject == 'file') self::addRequireFiles();
     }
 
     private static function appendFiles(array $files, string $called)
@@ -71,9 +72,9 @@ class MakeFileList
         self::$files[] = [...$file, 'order' => $called == 'main' ? $file['status'] : $called];
     }
 
-    private static function addFiles($name, $types, $taskless)
+    private static function addFiles($name, $status, $taskless)
     {
-        return array_map(fn ($x) => self::setFiles($name, $x, $taskless), $types);
+        return array_map(fn ($x) => self::setFiles($name, $x, $taskless), self::$types[$status]);
     }
 
     private static function setFiles(array $name, array $type, bool $taskless): array
@@ -114,7 +115,7 @@ class MakeFileList
 
     private static function explodeTasks($name, $type, $taskless)
     {
-        if ($type['variation'] != 'section' && self::$subject == 'resource') return [''];
+        if (self::isNotExplodable($type)) return [''];
 
         $tasks = self::setTasks($type);
     
@@ -128,6 +129,12 @@ class MakeFileList
         );
     }
 
+    private static function isNotExplodable($type)
+    {
+        return $type['variation'] != 'section' && self::$subject == 'resource'
+            || $type['type'] == 'test' && self::$types['main'][0]['type'] != 'controller';
+    }
+
     private static function setTasks($type)
     {
         return Settings::files("{$type['type']}.tasks")
@@ -139,11 +146,11 @@ class MakeFileList
         return in_array($type['status'], ['pair', 'main']) && !array_filter($name['tasks']);
     }
 
-    private static function addParentFiles($types)
+    private static function addParentFiles()
     {
         $parent = explode(Settings::seperators('modifier'), self::$request['parent']);
 
-        foreach ($types as $type) {
+        foreach (self::$types['parent'] as $type) {
             $type = array_merge(self::addBases($type), [
                 'name' => $parent[0],
                 'variation' => Arry::get($parent, 2) ?? '',
@@ -184,9 +191,9 @@ class MakeFileList
         return self::$package;
     }
 
-    private static function addRequireFiles($types)
+    private static function addRequireFiles()
     {
-        foreach ($types as $type) {
+        foreach (self::$types['require'] as $type) {
             $specs = self::setRequireFileSpecs($type);
 
             if (self::isNotAddable($specs)) continue;

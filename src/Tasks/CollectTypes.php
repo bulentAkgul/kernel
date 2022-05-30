@@ -11,43 +11,28 @@ class CollectTypes
     private static array $types = [];
     private static string $command;
 
-    public static function _(array|string $type, string $command = 'files', ?string $parent = '')
+    public static function _(string $type, string $command = 'files', ?string $parent = '')
     {
         self::$command = $command;
 
-        self::setTypes($type);
-
-        array_map(fn ($x) => self::addRelatedTypes($x, $parent), self::$types);
+        self::set($type);
+        
+        self::extend($parent);
 
         return self::$types;
     }
 
-    private static function setTypes($type): void
+    private static function set($type): void
     {
-        self::$types = self::addTypes($type) ?? self::shapeTypes($type);
-    }
-
-    private static function addTypes($type)
-    {
-        return is_array($type) && Arry::has('type', $type) ? $type : null;
-    }
-
-    private static function shapeTypes($type)
-    {
-        return array_map(fn ($x) => self::makeType($x), self::getTypes($type));
-    }
-
-    private static function makeType($type)
-    {
-        return array_merge(
-            Arry::combine(['type', 'variation', 'extra'], $type),
+        self::$types[] = array_merge(
+            Arry::combine(['type', 'variation', 'extra'], Isolation::types($type)[0]),
             ['name' => '', 'status' => 'main']
         );
     }
 
-    private static function getTypes($type): array
+    private static function extend($parent)
     {
-        return is_string($type) ? Isolation::types($type) : (is_string($type[0]) ? [$type] : $type);
+        self::addRelatedTypes(self::$types[0], $parent);
     }
 
     private static function addRelatedTypes($type, $parent)
