@@ -13,10 +13,11 @@ class CollectTypes
 
     public static function _(string $type, string $command = 'files', ?string $parent = '')
     {
+        self::$types = [];
         self::$command = $command;
 
         self::set($type);
-        
+
         self::extend($parent);
 
         return self::$types;
