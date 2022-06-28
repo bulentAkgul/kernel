@@ -37,9 +37,11 @@ class Arry
         return $group;
     }
 
-    public static function random(array $array, int $length = 1): array
+    public static function random(array $array, int $length = 1)
     {
-        return array_slice(Arr::shuffle($array), 0, $length);
+        $items = array_slice(Arr::shuffle($array), 0, $length);
+
+        return $length == 1 ? self::get($items, 0) : $items;
     }
 
     public static function assocMap(array $array, callable $callback = null)
