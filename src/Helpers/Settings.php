@@ -125,6 +125,15 @@ class Settings
         return self::get('prohibitives', $keys, $callback);
     }
 
+    public static function repo(): string
+    {
+        return match (true) {
+            self::standalone('laravel') => 'sl',
+            self::standalone('package') => 'sp',
+            default => 'pl'
+        };
+    }
+
     public static function requires(string $keys = '', ?callable $callback = null)
     {
         return array_values(self::get('requires', $keys, $callback));
