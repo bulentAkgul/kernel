@@ -65,6 +65,16 @@ class Text
         );
     }
 
+    public static function has(string $str, string $search): bool
+    {
+        return str_contains($str, $search);
+    }
+
+    public static function hasNot(string $str, string $search): bool
+    {
+        return !self::has($str, $search);
+    }
+
     public static function getTail(string $value = '', string $seperator = DIRECTORY_SEPARATOR)
     {
         return array_reverse(explode($seperator, $value))[0];
