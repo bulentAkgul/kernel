@@ -32,6 +32,7 @@ class MutateApp
             'app_key' => $app,
             'app_type' => self::obtainValue($app, 'type'),
             'app_folder' => self::obtainValue($app, 'folder'),
+            'route_group' => self::obtainValue($app, 'route_group'),
             'router' => SetRouter::_($app)
         ];
     }
