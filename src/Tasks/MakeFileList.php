@@ -118,7 +118,7 @@ class MakeFileList
         if (self::isNotExplodable($type)) return [''];
 
         $tasks = self::setTasks($type);
-    
+
         if (empty(array_filter($tasks))) return $tasks;
 
         if ($taskless) return $type['status'] == 'main' ? [''] : [];

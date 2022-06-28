@@ -3,7 +3,6 @@
 namespace Bakgul\Kernel\Tests\Feature\TaskTests;
 
 use Bakgul\Kernel\Tasks\MakeFileList;
-use Bakgul\Kernel\Tasks\PurifySchema;
 use Bakgul\Kernel\Tests\TestCase;
 
 class MakeFileListTest extends TestCase
@@ -13,8 +12,6 @@ class MakeFileListTest extends TestCase
     {
         $list = MakeFileList::_($this->request());
         
-        ray($list);
-
         $this->assertCount(2, $list);
     }
 
